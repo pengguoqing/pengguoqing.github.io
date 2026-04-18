@@ -36,7 +36,7 @@ IsArray<int[6]>::m_value //true
 ```
 先声明一个模板类让其默认非数组类型, 然后在特化两个数组类型形参的版本来判断数组类型。
 同理还有判断是否为引用类型的,也都是先声明为一个默认模板, 然后再特化两个引用参数的返回 true。
-还有一个关于模板特化的典型案例就是编译期求值,比如阶乘啥的, 如下所示:
+还有一个关于模板特化的典型案例就是编译期求值,比如阶乘啥的, 如下所示:  
 ```javascript 
 template <int n>
 struct Factorial
@@ -69,7 +69,7 @@ template<class T>
 using RemoveConstT = typename RemoveConst<T>::type;
 ```
 
-&emsp;函数模板是没有偏特化的, 假如要达到类似的效果可以借助函数重载或者函数对象模板的偏特化, 如下所示:
+&emsp;函数模板是没有偏特化的, 假如要达到类似的效果可以借助函数重载或者函数对象模板的偏特化, 如下所示:  
 ```javascript
 template<class T> 
 bool CheckIsArray(const T&)
@@ -90,7 +90,7 @@ CheckIsArray(value); //return false
 ```
 函数模板整体上讲编译会优先匹配模板参数更复杂的那一个, 需要注意的是这里的形参是引用而不是指针, 假如是指针的话会类型推导的时候数组退化成指针。
 #### 二、通透比较器
-&emsp;C++标准库里面有比较大小的仿函数, std::less。它可能的实现如下所示:
+&emsp;C++标准库里面有比较大小的仿函数, std::less。它可能的实现如下所示:  
 ```javascript
 template<class T = void>
 struct less
@@ -101,7 +101,7 @@ struct less
     }
 };
 ```
-这个比较器可能存在一些问题, 比如将 std::string 与 const char* 进行比较的时候会就会出现类型转换, 就会多 std::string 的构造和析构, 此时效率就低了, 而 std::string 是直接可以和 const char* 进行比较的。所以, 这个时候就需要在次基础上特化出一个通透性比较器。它的实现如下:
+这个比较器可能存在一些问题, 比如将 std::string 与 const char* 进行比较的时候会就会出现类型转换, 就会多 std::string 的构造和析构, 此时效率就低了, 而 std::string 是直接可以和 const char* 进行比较的。所以, 这个时候就需要在次基础上特化出一个通透性比较器。它的实现如下:  
 ```javascript
 template<>
 struct less<void>
@@ -118,7 +118,7 @@ struct less<void>
 ```
 特化的比较器里面, operator() 是一个成员函数模板, 接受两个模板参数, 以转发引用的方式传递参数, 函数内通过完美转发保留参数值类别然后再进行比较。
 ##### 2.1 通透比较器的用途一关联容器
-&emsp; 我自己目前为止使用关联容器的时候几乎没有指定过最后一个比较器参数, 全部都是使用标注库默认的, 考虑如下代码:
+&emsp; 我自己目前为止使用关联容器的时候几乎没有指定过最后一个比较器参数, 全部都是使用标注库默认的, 考虑如下代码:  
 ```javascript
 std::map<std::string, int> name_age_mp
 ```
@@ -127,13 +127,13 @@ std::map<std::string, int> name_age_mp
  name_age_mp.find("Jim");
  name_age_mp.find("Xiaoming");
 ```
-此时通过 find 成员函数查找对应键值时, 会先将 const char* 构造成 std::string, 效率就低了。如果按照如下声明:
+此时通过 find 成员函数查找对应键值时, 会先将 const char* 构造成 std::string, 效率就低了。如果按照如下声明:  
 ```javascript
 std::map< std::string, int, std::less<> > name_age_mp
 ```
 此时 std::map::find 就会是一个通用性成员模板函数, 它可以接受所有可以直接和 std::string 进行比较的类型, 减少不必要的构造。
 ##### 2.2 通透比较器的用途一自带键的对象
-&emsp; 这个的原理和前面的关联容器查找时降低不必要的构造类似, 比如试图放入集合 std::set 的对象自带键值,  考虑如下代码:
+&emsp; 这个的原理和前面的关联容器查找时降低不必要的构造类似, 比如试图放入集合 std::set 的对象自带键值,  考虑如下代码:  
  ```javascript
 struct Obj
 {
@@ -142,7 +142,7 @@ struct Obj
 };
 std::set<Obj> s{{0, "zero"}, {1, "one"}, {2, "two"}};
 ```
-假如此时直接使用 id 进行查找, 又会出不必要的构造, 所以可以实现一个通透性比较器来消除它, 如下所示:
+假如此时直接使用 id 进行查找, 又会出不必要的构造, 所以可以实现一个通透性比较器来消除它, 如下所示:  
  ```javascript
 template <typename IdType>
 struct id_compare 
@@ -157,11 +157,11 @@ struct id_compare
     typedef void is_transparent;
 };
 ```
-可以看出重载了两个新的的 operator(), 分别用于自带的键值类型与 Obj 进行比较, 此时集合的声明如下:
+可以看出重载了两个新的的 operator(), 分别用于自带的键值类型与 Obj 进行比较, 此时集合的声明如下:  
  ```javascript
 std::set<Obj, id_compare<int>> s{{0, "zero"}, {1, "one"}, {2, "two"}};
 ```
-这里顺便记一下 C++ 新版的泛型lambda表达式, 它的原理就是前文提到的通用性比较器的模板类。泛型lambda比较器表达式如下:
+这里顺便记一下 C++ 新版的泛型lambda表达式, 它的原理就是前文提到的通用性比较器的模板类。泛型lambda比较器表达式如下:  
  ```javascript
 auto less_obj = [](auto&& lhs, auto&& rhs)
 {
@@ -171,7 +171,7 @@ auto less_obj = [](auto&& lhs, auto&& rhs)
 #### 三、降低模板二进制膨胀方面的优化
 ##### 3.1、模板类的优化
 &emsp;模板二进制膨胀的原因是模板实例化后会可能会出现很多份相同的代码。比如模板类中存在与模板无关的成员函数, 此时每实例化一个类型就会产生一份相同的代码,类似于写了两个只有函数名不同，其余返回值,入参和实现完全相同的代码, 这就相当于在代码中重复写代码。
-解决方案就是与模板无关的成员函数放到基类里面。如下所示:
+解决方案就是与模板无关的成员函数放到基类里面。如下所示:  
  ```javascript
 class BaseObj
 {

@@ -1,4 +1,3 @@
-<center> <font face=red size=5> C++ 优先队列 priority_queue </font> </center>
 
 +++
 title = "C++ 优先队列 priority_queue"
@@ -11,7 +10,7 @@ tags = ["priority_queue", "STL", "数据结构"]
 &emsp; 本文介绍一下 C++ 标准库中的容器适配器 std::priority_queue。 正如所言, 它不是标准容器, 而是在内部封装了一个标准库容器, 
 那么它到底封装的哪一个标准容器呢？ 阅读完全文应该能猜中, 哈哈哈。
 
-reference:
+reference:  
  [https://www.geeksforgeeks.org/priority-queue-in-cpp-stl/]( https://www.geeksforgeeks.org/priority-queue-in-cpp-stl/)
  [https://stackoverflow.com/questions/19467485/how-to-remove-element-not-at-top-from-priority-queue]( https://stackoverflow.com/questions/19467485/how-to-remove-element-not-at-top-from-priority-queue)
 
