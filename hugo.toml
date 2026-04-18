@@ -11,9 +11,10 @@ disableSpecial1stPost = true
 [params]
 ShowToc = true
 TocOpen = true
-assets:
-    customCSS:
-      - css/extended/custom.css
+ShowCodeCopyButtons: true
+
+[params.assets]
+customCSS = ["css/extended/custom.css"]
 
 [menu]
 
