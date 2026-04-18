@@ -1,4 +1,4 @@
 baseURL = 'https://pengguoqing.github.io/'
 locale = 'en-us'
-title = 'My New Hugo Project'
+title = '匠人手记'
 theme = 'PaperMod'
