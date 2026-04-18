@@ -1,9 +1,9 @@
 +++
-title = "OBS 时间戳机制分析"
+title = "OBS 时间戳机制源码解析"
 date = 2026-04-18
 draft = false
-categories = ["OBS源码", "音视频"]
-tags = ["OBS", "timestamp", "音视频同步"]
+categories = ["OBS源码"]
+tags = ["音视频时间戳"]
 +++
 
 ## 背景
