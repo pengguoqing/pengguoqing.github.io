@@ -3,6 +3,11 @@ locale = 'en-us'
 title = '匠人手记'
 theme = 'PaperMod'
 
+[params.homeInfoParams]
+Title = "匠人手记"
+Content = "音视频开发 / C++工程"
+disableSpecial1stPost = true
+
 [params]
 ShowToc = true
 TocOpen = true
