@@ -2,3 +2,7 @@ baseURL = 'https://pengguoqing.github.io/'
 locale = 'en-us'
 title = '匠人手记'
 theme = 'PaperMod'
+
+[params]
+ShowToc = true
+TocOpen = true
