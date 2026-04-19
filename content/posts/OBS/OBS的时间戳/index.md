@@ -1,6 +1,6 @@
 +++
 title = "理解OBS帧时间戳的计算与渲染同步方式"
-date = 2026-04-18
+date = 2026-04-19
 draft = false
 categories = ["OBS源码"]
 tags = ["音视频时间戳"]
